@@ -9,43 +9,20 @@
 
     $jsonArray = '[
         {
-            "TestCase ID": "1",
-            "Test Input": "Challenging Times",
-            "Expected Output": "Business",
-            "Actulal OutPut": "125.60",
-            "Result": "Pass"
+            "title" => "Professional JavaScript",
+            "author" => "Nicholas C. Zakas"
         },
         {
-            "TestCase ID": "2",
-            "Test Input": "Learning JavaScript",
-            "Expected Output": "Programming",
-            "Actulal OutPut": "56.00",
-            "Result": "Pass"
+            "title" => "JavaScript: The Definitive Guide",
+            "author" => "David Flanagan"
         },
         {
-            "TestCase ID": "3",
-            "Test Input": "Popular Science",
-            "Expected Output": "Science",
-            "Actulal OutPut": "210.40",
-            "Result": "Pass"
+            "title" => "High Performance JavaScript",
+            "author" => "Nicholas C. Zakas"
         }
     ]';
 
     $books = json_decode($jsonArray, true);
-    // $books = array(
-    //     array(
-    //         "title" => "Professional JavaScript",
-    //         "author" => "Nicholas C. Zakas"
-    //     ),
-    //     array(
-    //         "title" => "JavaScript: The Definitive Guide",
-    //         "author" => "David Flanagan"
-    //     ),
-    //     array(
-    //         "title" => "High Performance JavaScript",
-    //         "author" => "Nicholas C. Zakas"
-    //     )
-    // );
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
     //headers
@@ -67,22 +44,17 @@
     // echo "naga --".$books[1]['TestCase ID'].'---';
     $x = 0;
     while($x <= count($books)) {
-        echo "The number is: ".$books[$x]['TestCase ID']." <br>";
+        echo "Title is: ".$books[$x]['title']." <br>";
         $col = 'A';
         foreach(array_keys($books[0]) as $value) {
-            echo "The number is: ".$books[$x][$value]." <br>";
+            echo "The Title is: ".$books[$x][$value]." <br>";
             $sheet->setCellValue($col++.($x+2), $books[$x][$value]);
         }
-        // $sheet->setCellValue('A'.($x+2), $books[$x]['TestCase ID']);
-        // $sheet->setCellValue('B'.($x+2), $books[$x]['Test Input']);
-        // $sheet->setCellValue('C'.($x+2), $books[$x]['Expected Output']);
-        // $sheet->setCellValue('D'.($x+2), $books[$x]['Actulal OutPut']);
-        // $sheet->setCellValue('E'.($x+2), $books[$x]['Result']);
         $x++;
     }
 
-    $spreadsheet->getActiveSheet()->setTitle('TestCasesList');
+    $spreadsheet->getActiveSheet()->setTitle('BooksList');
     $writer = new Xlsx($spreadsheet);
-    $writer->save('TestCasesList.xlsx');
+    $writer->save('BooksList.xlsx');
 
-    echo "<meta http-equiv='refresh' content='0;url=TestCasesList.xlsx'/>";
+    echo "<meta http-equiv='refresh' content='0;url=BooksList.xlsx'/>";
